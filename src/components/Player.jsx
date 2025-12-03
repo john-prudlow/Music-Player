@@ -126,6 +126,19 @@ export default function Player() {
     setPlay(true);
   };
 
+  const handleScrub = (e) => {
+    const bar = e.currentTarget; // the timeline-bar element
+    const rect = bar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left; // position of click inside bar
+    const percent = clickX / rect.width;  // fraction of bar clicked
+
+    if (audioRef.current.duration > 0) {
+        const newTime = percent * audioRef.current.duration;
+        audioRef.current.currentTime = newTime;
+        setProgress(`${(percent * 100).toFixed(2)}%`);
+    }
+  };
+
   return (
     <>
       <ul className="song-list">
@@ -145,7 +158,7 @@ export default function Player() {
           <div className="track-title">
             <p>{musicList[activeSong - 1].artist} - {musicList[activeSong - 1].title}</p>
           </div>
-          <div className="timeline-bar"><div className="progress-bar" style={{ width: progress }}></div></div>
+          <div className="timeline-bar" onClick={(e) => handleScrub(e)}><div className="progress-bar" style={{ width: progress }}></div></div>
         </div>
         <div className="controls">
           <button className={rewind ? "rewind-btn active" : "rewind-btn"} onMouseDown={handleRewind}><i className="fa-solid fa-backward"></i></button>
