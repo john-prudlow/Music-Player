@@ -1,12 +1,16 @@
-import './App.css'
+// import './App.css'
 import './style.css'
 import Player from './components/player'
+import Header from './components/Header'
 
 function App() {
 
   return (
     <>
-      <Player />
+      <Header />
+      <main>
+        <Player />
+      </main>
     </>
   )
 }
