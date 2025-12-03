@@ -105,6 +105,7 @@ h2 {
 }
 
 .player .timeline-bar {
+    position:relative;
     cursor:pointer;
     background:linear-gradient(to bottom, #000000, #330033);
     height:5px;
@@ -112,12 +113,30 @@ h2 {
 }
 
 .player .timeline-bar .progress-bar {
+    position:absolute;
     background:linear-gradient(to bottom, #aa00aa, #ff00ff);
-    height:5px;
+    height:100%;
 }
 
-.player .timeline-bar:hover .progress-bar {
+/* .player .timeline-bar:hover .progress-bar {
     border-right:2px solid #efef00;
+} */
+
+.player .progress-bar .progress-handle {
+    display:none;
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#efef00;
+    cursor:grab;
+}
+
+.player .progress-bar .progress-handle.active, .player .timeline-bar:hover .progress-bar .progress-handle {
+    display:block;
 }
 
 .player .controls {
@@ -143,6 +162,20 @@ h2 {
     color:#efef00;
     border:1px solid #efef00;
 }
+
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  height: 150px;
+  gap: 2px;
+}
+
+.bar {
+  width: 6px;
+  background: linear-gradient(to top, #4caf50, #81c784);
+  transition: height 0.1s ease; /* smooth animation */
+}
+
 
 /* Keyframes for scrolling */
   @keyframes scroll-left {
