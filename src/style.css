@@ -1,7 +1,13 @@
 * { box-sizing:border-box; }
 
+:root {
+    --primary-color:#1a1a1a;
+    --bg-color:#4169e1;
+}
+
 body {
-    background:#4169e1;
+    background:var(--bg-color);
+    color:var(--primary-color);
     display:flex;
     flex-direction:column;
     margin:0 auto;
@@ -51,6 +57,7 @@ h2 {
 
 .song-list {
     background:#fff;
+    color:var(--primary-color);
     border-radius:.5rem;
     display:flex;
     flex-direction:column;
@@ -68,6 +75,10 @@ h2 {
     margin:0;
     padding:0.2rem 1rem;
     width:100%;
+}
+
+.song-list li a {
+    color:var(--primary-color);
 }
 
 .song-list li.highlighted {
