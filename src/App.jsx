@@ -5,7 +5,6 @@ import Player from './components/Player'
 import Playlist from './components/Playlist'
 import { useRef, useState } from 'react'
 
-// import songs here
 import song1 from './source/CXR ATK - Sentinel.mp3'
 import song2 from './source/Ketsa - Make It Good.mp3'
 import song3 from './source/Happiness In Music - Cinematic Trailer.mp3'
@@ -23,6 +22,7 @@ function App() {
 
   const audioRef = useRef(new Audio(musicList[0].src));
   const [activeSong, setActiveSong] = useState(1);
+  const currentYear = new Date().getFullYear();
 
   return (
     <>
@@ -34,13 +34,15 @@ function App() {
           setActiveSong={setActiveSong}
           audioRef={audioRef}
         />
+        <AudioVisualizer audioRef={audioRef} />
         <Player
           musicList={musicList}
           activeSong={activeSong}
           setActiveSong={setActiveSong}
           audioRef={audioRef}
         />
-        <AudioVisualizer audioRef={audioRef} />
+        {/* Terms of Service */}
+        <p className="copyright">&#169; Copyright {currentYear}. All music tracks provided from <a href="https://freemusicarchive.org/" target="_blank">FMA</a>. See <a href="./src/terms-of-use.md" target="_blank">terms of use</a>.</p>
       </main>
     </>
   )

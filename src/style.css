@@ -19,7 +19,7 @@ body {
 }
 
 main {
-    padding:5rem 10rem;
+    padding:3.5rem 10rem;
 }
 
 header {
@@ -54,7 +54,7 @@ h2 {
     border-radius:.5rem;
     display:flex;
     flex-direction:column;
-    margin:0 0 2rem 0;
+    margin:0 0 0.5rem 0;
     padding:0;
     align-items:flex-start;
     overflow:hidden;
@@ -72,7 +72,7 @@ h2 {
 
 .song-list li.highlighted {
     background:linear-gradient(to bottom, #000000, #330033);
-    color:#fff;
+    color:#efef00;
 }
 
 .player {
@@ -141,6 +141,7 @@ h2 {
 
 .player .controls {
     display:flex;
+    align-items:center;
     column-gap:0.5rem;
 }
 
@@ -149,13 +150,18 @@ h2 {
     background:linear-gradient(to bottom, #aa00aa, #ff00ff);
     color:#fff;
     border-radius:50%;
-    height:50px;
-    width:50px;
     align-items:center;
     justify-content:center;
     column-gap:0.2rem;
     outline:none;
+    width:50px;
+    height:50px;
     box-shadow:0 0 10px 5px rgba(0.1, 0.1, 0.1, 0.1);
+}
+
+.player button.play-btn {
+    width:70px;
+    height:70px;
 }
 
 .player button.active {
@@ -171,18 +177,47 @@ h2 {
 }
 
 .bar {
-  width: 6px;
-  background: linear-gradient(to top, #4caf50, #81c784);
-  transition: height 0.1s ease; /* smooth animation */
+  width:7px;
+  background:linear-gradient(to bottom, #aa00aa, #ff00ff);
+  transition:height 0.1s ease; /* smooth animation */
 }
 
+.copyright {
+    color:#fff;
+    font-size:.8rem;
+    margin-top:6.5rem;
+    margin-bottom:.2rem;
+    text-align:center;
+}
 
-/* Keyframes for scrolling */
-  @keyframes scroll-left {
+.copyright a {
+    color:#fff;
+    font-weight:700;
+}
+
+@keyframes scroll-left {
     0% {
-      transform: translateX(0);
+        transform: translateX(0);
     }
     100% {
-      transform: translateX(-100%);
+        transform: translateX(-100%);
     }
-  }
+}
+
+@media screen and (max-width:800px) {
+    body { font-size:16px; }
+    main {
+        padding:3rem;
+        width:100%;
+    }
+    .song-list { margin:0 2.5rem 0.5rem 2.5rem; }
+    .visualizer, .player .song-display { padding:0 2.5rem; }
+}
+
+@media screen and (max-width:580px) {
+    main {
+        padding:3rem 1rem;
+    }
+    h1 { font-size:2.7rem; }
+    h2 { font-size:1.2rem; }
+}
