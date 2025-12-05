@@ -229,6 +229,10 @@ h2 {
     main {
         padding:3rem 1rem;
     }
+    header { padding:1.5rem 1.5rem; }
     h1 { font-size:2.7rem; }
     h2 { font-size:1.2rem; }
+    .song-list { margin:0 1.5rem 0.5rem 1.5rem; }
+    .visualizer, .player .song-display { padding:0 1.5rem; }
+    .copyright { padding:0 2rem; }
 }
