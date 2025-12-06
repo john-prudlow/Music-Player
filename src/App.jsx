@@ -42,7 +42,7 @@ function App() {
           audioRef={audioRef}
         />
         {/* Terms of Service */}
-        <p className="copyright">&#169; Copyright {currentYear}. All music tracks provided from <a href="https://freemusicarchive.org/" target="_blank">FMA</a>. See <a href="/terms-of-use.md" target="_blank">terms of use</a>.</p>
+        <p className="copyright">&#169; Copyright {currentYear}. All music tracks provided from <a href="https://freemusicarchive.org/" target="_blank">FMA</a>. See <a href="/Music-Player/terms-of-use.html" target="_blank">terms of use</a>.</p>
       </main>
     </>
   )
