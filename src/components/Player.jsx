@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function Player({ musicList, activeSong, setActiveSong, audioRef }) {
-  const [play, setPlay] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [rewind, setRewind] = useState(false);
   const [fastForward, setFastForward] = useState(false);
   const [prevTrack, setPrevTrack] = useState(false);
@@ -20,8 +20,12 @@ export default function Player({ musicList, activeSong, setActiveSong, audioRef 
     };
 
     const handleEnded = () => {
+      setIsPlaying(false);
       handleNextTrack();
     };
+
+    const handlePlayEvent = () => setIsPlaying(true);
+    const handlePauseEvent = () => setIsPlaying(false);
 
     const handleMouseUp = () => {
       setRewind(false);
@@ -32,38 +36,48 @@ export default function Player({ musicList, activeSong, setActiveSong, audioRef 
 
     audio.addEventListener("timeupdate", updateProgress);
     audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("play", handlePlayEvent);
+    audio.addEventListener("pause", handlePauseEvent);
     document.addEventListener("mouseup", handleMouseUp);
+
+    // Initialize state from element when activeSong changes
+    setIsPlaying(!audio.paused);
 
     return () => {
       audio.removeEventListener("timeupdate", updateProgress);
       audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("play", handlePlayEvent);
+      audio.removeEventListener("pause", handlePauseEvent);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [activeSong]);
+  }, [activeSong, audioRef]);
 
   const handlePlay = () => {
     const audio = audioRef.current;
 
+    // If you need to resume an AudioContext, do it on user gesture here
     if (window.audioCtxRef && window.audioCtxRef.state === "suspended") {
-        window.audioCtxRef.resume();
+      window.audioCtxRef.resume();
     }
 
-    if (!play) {
-        audio.play().catch(err => console.log("Playback blocked:", err));
-        setPlay(true);
+    if (audio.paused) {
+      audio.play().catch(err => console.log("Playback blocked:", err));
+      // Do NOT setIsPlaying here; let the 'play' event update it
     } else {
-        audio.pause();
-        setPlay(false);
+      audio.pause();
+      // Do NOT setIsPlaying here; let the 'pause' event update it
     }
   };
 
   const handleRewind = () => {
-    audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
+    const audio = audioRef.current;
+    audio.currentTime = Math.max(audio.currentTime - 10, 0);
     setRewind(true);
   };
 
   const handleFForward = () => {
-    audioRef.current.currentTime += 10;
+    const audio = audioRef.current;
+    audio.currentTime = Math.min(audio.currentTime + 10, audio.duration || audio.currentTime + 10);
     setFastForward(true);
   };
 
@@ -78,8 +92,7 @@ export default function Player({ musicList, activeSong, setActiveSong, audioRef 
     audio.currentTime = 0;
     setActiveSong(prevTrackId);
     setProgress("0%");
-    audio.play();
-    setPlay(true);
+    audio.play(); // 'play' event will set isPlaying
   };
 
   const handleNextTrack = () => {
@@ -93,8 +106,7 @@ export default function Player({ musicList, activeSong, setActiveSong, audioRef 
     audio.currentTime = 0;
     setActiveSong(nextTrackId);
     setProgress("0%");
-    audio.play();
-    setPlay(true);
+    audio.play(); // 'play' event will set isPlaying
   };
 
   const handleScrubStart = (e) => {
@@ -144,7 +156,7 @@ export default function Player({ musicList, activeSong, setActiveSong, audioRef 
         <button className={prevTrack ? "prev-track active" : "prev-track"} onMouseDown={handlePrevTrack}>
           <i className="fa-solid fa-backward-fast"></i>
         </button>
-        <button className={play ? "play-btn active" : "play-btn"} onClick={handlePlay}>
+        <button className={isPlaying ? "play-btn active" : "play-btn"} onClick={handlePlay}>
           <i className="fa-solid fa-play"></i><i className="fa-solid fa-pause"></i>
         </button>
         <button className={nextTrack ? "next-track active" : "next-track"} onMouseDown={handleNextTrack}>
